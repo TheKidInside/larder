@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Larder is now Grocer</title>
+  <meta http-equiv="refresh" content="0; url=/grocer/">
+  <link rel="canonical" href="/grocer/">
+  <script>
+    // Larder was renamed Grocer and moved to /grocer/. Same site, so your pantry
+    // and spending data are already there. Drop the old offline copy, then go.
+    (async () => {
+      try {
+        const regs = navigator.serviceWorker ? await navigator.serviceWorker.getRegistrations() : [];
+        await Promise.all(regs.filter((r) => r.scope.endsWith('/larder/')).map((r) => r.unregister()));
+        if (window.caches) for (const k of await caches.keys()) if (k.startsWith('larder-')) await caches.delete(k);
+      } catch (e) { /* go anyway */ }
+      location.replace('/grocer/' + location.search + location.hash);
+    })();
+  </script>
+  <style>body{font:16px system-ui,sans-serif;margin:40px 16px;color:#222;background:#f7f3e9}</style>
+</head>
+<body>
+  <p>Larder is now <b>Grocer</b>. Taking you to <a href="/grocer/">thekidinside.github.io/grocer</a>...</p>
+</body>
+</html>
